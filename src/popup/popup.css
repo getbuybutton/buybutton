@@ -1,0 +1,50 @@
+:root {
+  --bg: #fff; --fg: #0f1419; --mut: #536471; --bd: #dfe5ea; --field: #f7f9fa; --acc: #00c805; --err: #d4183d;
+  color-scheme: light dark;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #0b0d10; --fg: #e7e9ea; --mut: #8b98a5; --bd: #2f3336; --field: #16181c; --err: #ff5c7a; }
+}
+* { box-sizing: border-box; }
+body { margin: 0; width: 320px; background: var(--bg); color: var(--fg); font: 13px/1.4 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+header { display: flex; align-items: center; gap: 10px; padding: 14px 16px; border-bottom: 1px solid var(--bd); }
+.logo { width: 30px; height: 30px; border-radius: 8px; }
+.title { flex: 1; display: flex; flex-direction: column; } .title small { color: var(--mut); font-size: 11.5px; }
+.switch { position: relative; width: 36px; height: 20px; flex: none; cursor: pointer; }
+.switch input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.switch span { position: absolute; inset: 0; border-radius: 999px; background: var(--bd); transition: background .15s; pointer-events: none; }
+.switch span::after { content: ""; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 50%; background: #fff; transition: transform .15s; box-shadow: 0 1px 2px rgba(0,0,0,.25); }
+.switch input:checked + span { background: var(--acc); }
+.switch input:checked + span::after { transform: translateX(16px); }
+.switch input:focus-visible + span { outline: 2px solid var(--fg); outline-offset: 2px; }
+form { padding: 14px 16px 4px; display: flex; flex-direction: column; gap: 14px; }
+form.off .field, form.off details, form.off .preview { opacity: .5; }
+.field { display: flex; flex-direction: column; gap: 5px; }
+.field > span { font-weight: 600; } .field em { font-style: normal; font-weight: 500; color: var(--mut); font-size: 11px; margin-left: 4px; }
+.field small { color: var(--mut); font-size: 11.5px; }
+input:not([type=checkbox]) { width: 100%; height: 32px; padding: 0 10px; border: 1px solid var(--bd); border-radius: 8px; background: var(--field); color: var(--fg); font: inherit; }
+input:focus { outline: 2px solid var(--acc); outline-offset: -1px; border-color: transparent; }
+input[aria-invalid="true"] { border-color: var(--err); }
+.affix { display: flex; align-items: center; border: 1px solid var(--bd); border-radius: 8px; background: var(--field); }
+.affix i { font-style: normal; color: var(--mut); padding-left: 10px; }
+.affix input { border: 0; background: none; padding-left: 2px; }
+.affix:focus-within { outline: 2px solid var(--acc); outline-offset: -1px; } .affix input:focus { outline: none; }
+details summary { cursor: pointer; color: var(--mut); font-weight: 600; margin-bottom: 8px; }
+code { font: 11px ui-monospace, SFMono-Regular, Menlo, monospace; }
+.link { all: unset; color: var(--fg); text-decoration: underline; cursor: pointer; margin-left: 4px; }
+.preview { margin: 0; color: var(--mut); font-size: 11.5px; word-break: break-all; }
+.preview a { color: var(--fg); }
+.status { margin: 0; min-height: 16px; font-size: 11.5px; color: var(--mut); }
+.status.err { color: var(--err); }
+footer { padding: 10px 16px 14px; color: var(--mut); font-size: 11px; border-top: 1px solid var(--bd); }
+
+fieldset.field { border: 0; padding: 0; margin: 0; }
+fieldset.field legend { font-weight: 600; padding: 0; margin-bottom: 5px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { position: relative; display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 10px 0 7px; border: 1px solid var(--bd); border-radius: 999px; background: var(--field); cursor: pointer; font-size: 12px; font-weight: 600; user-select: none; }
+.chip input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.chip svg { width: 14px; height: 14px; display: block; }
+.chip:has(input:checked) { border-color: var(--acc); background: color-mix(in srgb, var(--acc) 12%, var(--field)); }
+.chip:has(input:not(:checked)) { opacity: .55; }
+.chip:has(input:focus-visible) { outline: 2px solid var(--fg); outline-offset: 1px; }
+details > .field, details > .preview { margin-top: 14px; }

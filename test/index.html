@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BUY BUTTON test page</title>
+<style>
+  body { margin: 0; background: #fff; color: #0f1419; font: 15px/20px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+  body.dark { background: #000; color: #e7e9ea; }
+  main { max-width: 600px; margin: 0 auto; border-inline: 1px solid #eff3f4; min-height: 100vh; }
+  body.dark main, body.dark article, body.dark header { border-color: #2f3336; }
+  body.dark header { background: #000; }
+  header { position: sticky; top: 0; padding: 12px 16px; border-bottom: 1px solid #eff3f4; background: #fff; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; z-index: 1; }
+  header b { flex: 1 }
+  header small { opacity: .6 }
+  button.ctl { font: inherit; font-size: 13px; padding: 4px 10px; border-radius: 999px; border: 1px solid #cfd9de; background: none; color: inherit; cursor: pointer; }
+  article { padding: 12px 16px; border-bottom: 1px solid #eff3f4; cursor: pointer; }
+  article:hover { background: rgba(127,127,127,.04); }
+  .who { font-weight: 700; } .who span { font-weight: 400; opacity: .6 }
+  [data-testid="tweetText"] { white-space: pre-wrap; word-wrap: break-word; margin-top: 2px; }
+  a { color: #1d9bf0; text-decoration: none; }
+  .expect { font-size: 12px; opacity: .55; margin-top: 6px; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <b>Fake X timeline</b><small id="mode">extension (dev build)</small>
+    <button class="ctl" id="theme">Toggle dark</button>
+    <button class="ctl" id="more">Load more</button>
+    <button class="ctl" id="rerender">Re-render tweet 1</button>
+  </header>
+  <div id="feed"></div>
+</main>
+<script type="module" src="./harness.ts"></script>
+<p style="text-align:center;font-size:12px;opacity:.6">Settings: <a href="/src/popup/index.html" target="_blank">open the popup</a> (harness only)</p>
+<script type="module">
+const PONS = '0x39dBED3a2bd333467115dE45665cC57F813C4571'
+const cash = (t) => `<a href="/search?q=%24${t}&src=cashtag_click">$${t}</a>`
+const tweets = [
+  [`Just aped ${cash('PONS')} on Robinhood Chain, chart looks clean`, 'cashtag link → 1 badge after the link'],
+  [`CA: ${PONS}\nNot financial advice ${cash('PONS')}`, 'CA badge only (CA priority, ticker skipped)'],
+  [`plain text tickers: $FROG and $moon and $Sigma9`, '3 badges'],
+  [`excluded: $ETH $BTC $USDC $USD $HOOD — no badges`, '0 badges'],
+  [`money is not a ticker: $100, $5k, US$20, 10$ — and price$ABC either`, '0 badges'],
+  [`tx hash is not a CA: 0x${'ab'.repeat(32)}`, '0 badges'],
+  [`two CAs in one line 0x${'1'.repeat(40)} and 0x${'2'.repeat(40)}.`, '2 badges (mock) · 0 in live: fake addresses'],
+  [`unknown token $NOPEDOG resolves to nothing`, '0 badges (no reliable match)'],
+  [`fresh Pons launch still on the curve: 0x659bb55efc0e229a9373af77d0d7e27f1d023ca0`, 'live: curve price + progress bar'],
+  [`ticker of a token still on the Pons curve: $ATICO and $DONKEY`, "live: $DONKEY via the indexer (curve); $ATICO → the DEX copy (more liquid than the curve one)"],
+  [`solana mint: DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263 (BONK)`, 'live: Solana badge'],
+  [`dex paid coin: 6ReKEafCz73AxMeR2EYs9bKjQi8Lt4TgFfTVBZ6Lpump`, 'live: Dexscreener logo after MC (DEX paid)'],
+  [`eth CA 0x6982508145454Ce325dDbE47a25d4ec3d2311933 is PEPE`, 'live: Ethereum badge'],
+  [`multichain tickers: $BONK $BRETT $WIF`, 'live: Solana, Base, Solana'],
+  [`not mints: https://dexscreener.com/solana/DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263 and AbcdefghijkmnopqrstuvwxyzABCDEFGH`, '0 badges (URL path, no digit)'],
+  [`pump link: <a href="https://t.co/abc"><span style="display:none">https://</span>pump.fun/coin/CKj5M11X7<span style="display:none">cHSm1aLh6BxN8HcfjSoXuQPNEaENKU7pump</span><span>…</span></a> gm`, 'live: 1 Solana badge after the link (not on the hidden piece)'],
+  [`chart: <a href="https://t.co/abc"><span style="display:none">https://</span>dexscreener.com/solana/5zpyu<span style="display:none">tJu9ee6jFymDGoK7F6S5Kczqtc9FomP3ueKuyA9</span><span>…</span></a> and axiom <a href="https://t.co/abc"><span style="display:none">https://</span>axiom.trade/meme/0x4e829F8A<span style="display:none">5213c42535AB84AA40BD4aDCCE9cBa02?chain=base</span><span>…</span></a>`, 'live: BONK (Solana) and BRETT (Base) from pair links'],
+  [`random link <a href="https://t.co/abc"><span style="display:none">https://</span>example.com/0x6982508145<span style="display:none">454Ce325dDbE47a25d4ec3d2311933</span><span>…</span></a> $BONK`, 'live: no badge on the link, 1 on $BONK'],
+  [`$PONS and its CA in one post ${PONS} — ticker should not double up`, 'live: 1 badge (CA)'],
+]
+let n = 0
+function add([html, expect]) {
+  n++
+  const a = document.createElement('article')
+  a.dataset.testid = 'tweet'
+  a.innerHTML = `<div class="who">anon ${n} <span>@anon${n} · 2h</span></div>
+    <div data-testid="tweetText" lang="en"><span>${html}</span></div><div class="expect">expected: ${expect}</div>`
+  a.addEventListener('click', () => console.log('tweet opened', n))
+  document.getElementById('feed').append(a)
+}
+tweets.forEach(add)
+document.getElementById('theme').onclick = () => {
+  document.body.classList.toggle('dark')
+  document.body.style.backgroundColor = document.body.classList.contains('dark') ? '#000' : '#fff'
+}
+document.getElementById('more').onclick = () => {
+  add([`new tweet ${n + 1}: ${cash('LATE')} via MutationObserver, CA 0x${(n + 1).toString(16).padStart(40, 'c')}`, 'CA badge (ticker skipped)'])
+  add([`new tweet ${n + 1}: only ticker $LATER`, '1 badge'])
+}
+document.getElementById('rerender').onclick = () => {
+  const t = document.querySelector('[data-testid="tweetText"]')
+  t.innerHTML = `<span>${tweets[0][0]} (re-rendered)</span>`
+}
+</script>
+</body>
+</html>

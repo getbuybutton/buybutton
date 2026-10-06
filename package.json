@@ -1,0 +1,22 @@
+{
+  "name": "buybutton",
+  "private": true,
+  "version": "1.8.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite build --watch --mode development",
+    "build": "tsc --noEmit && vite build",
+    "test:page": "vite --config vite.test.config.ts",
+    "zip": "npm run build && rm -f buybutton.zip && cd dist && zip -qrX ../buybutton.zip ."
+  },
+  "devDependencies": {
+    "@crxjs/vite-plugin": "^2.7.1",
+    "@types/chrome": "^0.3.4",
+    "@types/node": "^26.6.4",
+    "typescript": "^7.0.2",
+    "vite": "^5.4.21"
+  },
+  "dependencies": {
+    "viem": "^2.57.3"
+  }
+}

@@ -1,0 +1,51 @@
+.buy { max-width: 460px; margin: 0 auto; padding: 40px 16px 24px; }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 22px; padding: 22px; box-shadow: var(--shadow); }
+.tok { display: flex; align-items: center; gap: 12px; }
+.tok-img { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; flex: none; background: var(--soft); }
+.tok-id { flex: 1; min-width: 0; }
+.tok-id h1 { font-size: 24px; margin: 0; letter-spacing: -.02em; text-align: left; max-width: none; line-height: 1.1; }
+.tok-id p { margin: 2px 0 0; font-size: 14px; display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: center; }
+.chain { display: inline-flex; align-items: center; gap: 5px; font-weight: 600; color: var(--fg); }
+.chain img { width: 14px; height: 14px; border-radius: 3px; }
+.chain img.rh { width: auto; margin: 0; }
+.tok-px { text-align: right; display: flex; flex-direction: column; align-items: flex-end; font-variant-numeric: tabular-nums; }
+.tok-px b { font-size: 16px; } .tok-px small { font-size: 12px; }
+.up { color: #00a804; font-weight: 600; font-size: 13px; } .down { color: #f23645; font-weight: 600; font-size: 13px; }
+.mut { color: var(--mut); }
+.amounts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 22px; }
+.amounts button { height: 44px; border-radius: 12px; border: 1px solid var(--line); background: var(--soft); color: var(--fg); font: 700 16px Inter, sans-serif; cursor: pointer; }
+.amounts button.on { border-color: var(--acc); background: color-mix(in srgb, var(--acc) 14%, var(--soft)); }
+.est { text-align: center; font-size: 13px; margin: 12px 0 0; }
+.pay { width: 100%; height: 54px; margin-top: 14px; border: 0; border-radius: 14px; background: #000; color: #fff; font: 600 19px -apple-system, BlinkMacSystemFont, Inter, sans-serif; display: flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer; }
+@media (prefers-color-scheme: dark) { .pay { background: #fff; color: #000; } }
+.pay svg { width: 20px; height: 20px; margin-left: 2px; }
+.pay:disabled { opacity: .55; cursor: default; }
+.fine { font-size: 12.5px; text-align: center; margin: 10px 0 0; }
+.err { color: #f23645; font-size: 14px; margin: 14px 0 0; }
+.note { margin-top: 18px; padding: 14px; border-radius: 14px; background: var(--soft); text-align: center; }
+.note p { margin: 0 0 10px; font-size: 14px; }
+.done { text-align: center; padding-top: 18px; }
+.check { width: 52px; height: 52px; margin: 0 auto 10px; border-radius: 50%; background: var(--acc); color: var(--acc-ink); display: grid; place-items: center; font-size: 26px; font-weight: 800; }
+.done h2 { font-size: 22px; margin: 0 0 4px; text-align: center; }
+.row { display: flex; gap: 8px; justify-content: center; margin: 16px 0 6px; flex-wrap: wrap; }
+.link { all: unset; cursor: pointer; text-decoration: underline; font-size: 13px; color: var(--fg); }
+.acct { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--line); font-size: 13px; }
+.buy .legal { font-size: 12px; text-align: center; margin-top: 16px; line-height: 1.5; }
+.warn { color: #b26b00; font-size: 13px; text-align: center; margin: 8px 0 0; }
+@media (prefers-color-scheme: dark) { .warn { color: #ffb020; } }
+
+.wallet { margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--line); display: grid; gap: 10px; text-align: left; }
+.wallet-h { font-weight: 700; font-size: 14px; }
+.wallet-row { display: flex; align-items: center; gap: 12px; font-size: 14px; }
+.wallet-row code { font: 500 13px ui-monospace, SFMono-Regular, Menlo, monospace; padding: 3px 8px; border-radius: 6px; background: var(--soft); }
+.wallet-row span:first-child { font-weight: 700; }
+.wallet .acct { margin-top: 4px; }
+
+.wallet .acct { border-top: 0; padding-top: 0; justify-content: flex-start; }
+
+.handoff { display: flex; gap: 18px; align-items: center; margin-top: 16px; padding: 16px; border: 1px solid var(--line); border-radius: 16px; background: var(--soft); text-align: left; }
+.handoff .qr { flex: none; width: 132px; height: 132px; padding: 6px; border-radius: 12px; background: #fff; }
+.handoff .qr svg { display: block; width: 100%; height: 100%; }
+.handoff b { font-size: 15px; }
+.handoff p { margin: 6px 0 8px; font-size: 13px; line-height: 1.45; }
+@media (max-width: 480px) { .handoff { flex-direction: column; text-align: center; } }

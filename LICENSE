@@ -1,0 +1,20 @@
+BUY BUTTON Source-Available License
+
+Copyright (c) 2026 BUY BUTTON. All rights reserved.
+
+This source code is published so anyone can read, audit and verify what the
+BUY BUTTON extension, buy page and indexer do.
+
+You may:
+  - view and read the source code;
+  - build and run it locally to audit or verify its behavior;
+  - reference it in security reviews and discussions.
+
+You may not, without prior written permission:
+  - copy, modify, merge or redistribute the code or substantial parts of it;
+  - publish, sell or operate a product, extension or service based on it;
+  - use the BUY BUTTON name, logo or branding.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND. IN NO EVENT
+SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY ARISING
+FROM THE SOFTWARE OR ITS USE.

@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>BUY BUTTON</title>
+<link rel="stylesheet" href="./popup.css">
+</head>
+<body>
+<header>
+  <img class="logo" src="/icons/icon128.png" alt="" width="30" height="30">
+  <div class="title"><b>BUY BUTTON</b><small>Memecoin prices on X</small></div>
+  <label class="switch" title="Show badges on X">
+    <input type="checkbox" id="enabled"><span></span>
+  </label>
+</header>
+<form id="form" novalidate>
+  <fieldset class="field chains">
+    <legend>Chains</legend>
+    <div id="chains" class="chips"></div>
+  </fieldset>
+  <fieldset class="field">
+    <legend>Your terminal</legend>
+    <div class="chips" id="terminal">
+      <label class="chip"><input type="radio" name="terminal" value="axiom"><span>Axiom</span></label>
+      <label class="chip"><input type="radio" name="terminal" value="gmgn"><span>GMGN</span></label>
+      <label class="chip"><input type="radio" name="terminal" value="padre"><span>Padre</span></label>
+    </div>
+    <small>GMGN: Solana, Ethereum, Base, BNB. Padre: those plus Robinhood. Other chains open on Axiom.</small>
+  </fieldset>
+  <details id="advanced">
+    <summary>Referral codes &amp; advanced</summary>
+    <label class="field">
+      <span>GMGN referral code</span>
+      <input id="gmgnRef" placeholder="yourcode" autocomplete="off" spellcheck="false" maxlength="64">
+    </label>
+    <label class="field">
+      <span>Padre referral code</span>
+      <input id="padreRef" placeholder="yourcode" autocomplete="off" spellcheck="false" maxlength="64">
+    </label>
+    <label class="field">
+      <span>Axiom referral code</span>
+      <div class="affix"><i>@</i><input id="axiomRef" placeholder="yourcode" autocomplete="off" spellcheck="false" maxlength="64"></div>
+      <small>Added to every “Trade on Axiom” link.</small>
+    </label>
+    <label class="field">
+      <span>Apple Pay page</span>
+      <input id="buyPageUrl" type="url" placeholder="https://…" spellcheck="false">
+      <small>Where “Buy with Apple Pay” opens. The token is passed as <code>?ca=&amp;chain=</code>.</small>
+    </label>
+    <label class="field">
+      <span>Axiom link template</span>
+      <input id="axiomUrlTemplate" spellcheck="false">
+      <small><code>{ca}</code> = token address, <code>{chain}</code> = Axiom chain, <code>{ref}</code> = referral code. <button type="button" id="reset" class="link">Reset</button></small>
+    </label>
+    <p class="preview">Preview: <a id="preview" target="_blank" rel="noopener noreferrer"></a></p>
+  </details>
+  <p class="status" id="status" role="status"></p>
+</form>
+<footer>Read-only: no wallet, no keys, no tracking.</footer>
+<script type="module" src="./main.ts"></script>
+</body>
+</html>
